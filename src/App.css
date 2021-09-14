@@ -17,8 +17,14 @@
     background-position: center;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     text-align: center;
+}
+
+.title {
+    color: #fff;
+    letter-spacing: 1px;
 }
 
 .card {

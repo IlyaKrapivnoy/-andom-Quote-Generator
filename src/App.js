@@ -30,9 +30,10 @@ class App extends Component {
 
         return (
             <div className='app'>
+                <h1 className='title'>Advice update every 5 seconds</h1>
                 <div className='card'>
-                    <h1 className='heading'>{advice}</h1>
-                    <button className='button'>
+                    <h2 className='heading'>{advice}</h2>
+                    <button className='button' onClick={this.fetchAdvice}>
                         <span>GIVE ME ADVICE!</span>
                     </button>
                 </div>
