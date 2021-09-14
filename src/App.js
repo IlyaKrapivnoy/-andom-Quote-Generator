@@ -17,6 +17,8 @@ class App extends Component {
             .then((response) => {
                 const { advice } = response.data.slip;
                 console.log('quote', advice);
+
+                this.setState({ advice });
             })
             .catch((error) => {
                 console.log('hm', error);
@@ -24,9 +26,11 @@ class App extends Component {
     };
 
     render() {
+        const { advice } = this.state;
+
         return (
             <div className='App'>
-                <h1>Random Quotes</h1>
+                <h1>{advice}</h1>
             </div>
         );
     }
