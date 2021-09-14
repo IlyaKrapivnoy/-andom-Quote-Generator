@@ -15,7 +15,8 @@ class App extends Component {
         axios
             .get('https://api.adviceslip.com/advice')
             .then((response) => {
-                console.log('hm', response);
+                const { advice } = response.data.slip;
+                console.log('quote', advice);
             })
             .catch((error) => {
                 console.log('hm', error);
@@ -23,7 +24,11 @@ class App extends Component {
     };
 
     render() {
-        return <div className='App'>hi</div>;
+        return (
+            <div className='App'>
+                <h1>Random Quotes</h1>
+            </div>
+        );
     }
 }
 
