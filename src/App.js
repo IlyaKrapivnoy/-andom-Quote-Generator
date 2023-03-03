@@ -8,6 +8,10 @@ const App = () => {
 
   useEffect(() => {
     fetchAdvice();
+    const interval = setInterval(() => {
+      fetchAdvice();
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchAdvice = () => {
@@ -17,6 +21,7 @@ const App = () => {
         const { advice } = response.data.slip;
 
         setAdvice(advice);
+        setErrorMessage("");
       })
       .catch((error) => {
         console.error("Error fetching advice:", error);
@@ -35,7 +40,6 @@ const App = () => {
         ) : (
           <h2 className="heading">{advice}</h2>
         )}
-        <h2 className="heading">{advice}</h2>
         <button className="button" onClick={fetchAdvice}>
           <span>GIVE ME ADVICE!</span>
         </button>
