@@ -1,45 +1,51 @@
-import { Component } from 'react';
-import './App.css';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import "./App.css";
+import axios from "axios";
 
-class App extends Component {
-    state = {
-        advice: '',
-    };
+const App = () => {
+  const [advice, setAdvice] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-    componentDidMount() {
-        this.fetchAdvice();
-    }
+  useEffect(() => {
+    fetchAdvice();
+    const interval = setInterval(() => {
+      fetchAdvice();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
-    fetchAdvice = () => {
-        axios
-            .get('https://api.adviceslip.com/advice')
-            .then((response) => {
-                const { advice } = response.data.slip;
-                console.log('quote', advice);
+  const fetchAdvice = () => {
+    axios
+      .get("https://api.adviceslip.com/advice")
+      .then((response) => {
+        const { advice } = response.data.slip;
 
-                this.setState({ advice });
-            })
-            .catch((error) => {
-                console.log('hm', error);
-            });
-    };
+        setAdvice(advice);
+        setErrorMessage("");
+      })
+      .catch((error) => {
+        console.error("Error fetching advice:", error);
 
-    render() {
-        const { advice } = this.state;
+        setAdvice("");
+        setErrorMessage("Failed to fetch advice. Please try again later.");
+      });
+  };
 
-        return (
-            <div className='app'>
-                <h1 className='title'>Advice update every 5 seconds</h1>
-                <div className='card'>
-                    <h2 className='heading'>{advice}</h2>
-                    <button className='button' onClick={this.fetchAdvice}>
-                        <span>GIVE ME ADVICE!</span>
-                    </button>
-                </div>
-            </div>
-        );
-    }
-}
+  return (
+    <div className="app">
+      <h1 className="title">Advice update every 5 seconds</h1>
+      <div className="card">
+        {errorMessage ? (
+          <p className="error-message">{errorMessage}</p>
+        ) : (
+          <h2 className="heading">{advice}</h2>
+        )}
+        <button className="button" onClick={fetchAdvice}>
+          <span>GIVE ME ADVICE!</span>
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default App;
