@@ -8,22 +8,21 @@ const App = () => {
 
   const fetchAdvice = async () => {
     try {
-      const response = await axios.get("https://api.adviceslip.com/advice");
-      const { advice } = response.data.slip;
-      setAdvice(advice);
+      const { data } = await axios.get("https://api.adviceslip.com/advice");
+      setAdvice(data.slip.advice);
       setErrorMessage("");
     } catch (error) {
       console.error("Error fetching advice:", error);
       setAdvice("");
-      setErrorMessage("Failed to fetch advice. Please try again later.");
+      setErrorMessage(`Failed to fetch advice. Error: ${error.message}`);
     }
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const intervalId = setInterval(() => {
       fetchAdvice();
     }, 5000);
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
