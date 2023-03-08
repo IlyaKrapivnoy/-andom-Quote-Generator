@@ -1,35 +1,30 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import axios from "axios";
+import "./App.css";
 
 const App = () => {
   const [advice, setAdvice] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const fetchAdvice = async () => {
+    try {
+      const response = await axios.get("https://api.adviceslip.com/advice");
+      const { advice } = response.data.slip;
+      setAdvice(advice);
+      setErrorMessage("");
+    } catch (error) {
+      console.error("Error fetching advice:", error);
+      setAdvice("");
+      setErrorMessage("Failed to fetch advice. Please try again later.");
+    }
+  };
+
   useEffect(() => {
-    fetchAdvice();
     const interval = setInterval(() => {
       fetchAdvice();
     }, 5000);
     return () => clearInterval(interval);
   }, []);
-
-  const fetchAdvice = () => {
-    axios
-      .get("https://api.adviceslip.com/advice")
-      .then((response) => {
-        const { advice } = response.data.slip;
-
-        setAdvice(advice);
-        setErrorMessage("");
-      })
-      .catch((error) => {
-        console.error("Error fetching advice:", error);
-
-        setAdvice("");
-        setErrorMessage("Failed to fetch advice. Please try again later.");
-      });
-  };
 
   return (
     <div className="app">
