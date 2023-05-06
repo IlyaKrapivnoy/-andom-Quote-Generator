@@ -27,7 +27,7 @@ const App = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const updEverySec = Number(timeout.toString().replace(/0/g, ""));
+  const updEverySec = Number(timeout.toString().replace(/0/g, "")) || "a few";
 
   return (
     <div className="app">
