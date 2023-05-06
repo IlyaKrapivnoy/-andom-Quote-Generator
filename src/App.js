@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
+const TIMEOUT_MS = 3000;
+
 const App = () => {
   const [advice, setAdvice] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -18,7 +20,7 @@ const App = () => {
     }
   };
 
-  const timeout = 3000;
+  const timeout = TIMEOUT_MS;
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -27,7 +29,7 @@ const App = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  function updEverySec() {
+  const updEverySec = () => {
     let str = timeout.toString();
 
     let i = str.length - 1;
@@ -43,7 +45,7 @@ const App = () => {
 
     const num = Number(str);
     return isNaN(num) ? "a few" : num;
-  }
+  };
 
   const updEverySecVal = updEverySec();
 
