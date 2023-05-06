@@ -18,16 +18,20 @@ const App = () => {
     }
   };
 
+  const timeout = 3000;
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchAdvice();
-    }, 5000);
+    }, timeout);
     return () => clearInterval(intervalId);
   }, []);
 
+  const updEverySec = Number(timeout.toString().replace(/0/g, ""));
+
   return (
     <div className="app">
-      <h1 className="title">Advice update every 5 seconds</h1>
+      <h1 className="title">Advice update every {updEverySec} seconds</h1>
       <div className="card">
         {errorMessage ? (
           <p className="error-message">{errorMessage}</p>
