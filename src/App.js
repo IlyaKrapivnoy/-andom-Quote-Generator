@@ -27,11 +27,29 @@ const App = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const updEverySec = Number(timeout.toString().replace(/0/g, "")) || "a few";
+  function updEverySec() {
+    let str = timeout.toString();
+
+    let i = str.length - 1;
+    while (i >= 0 && str[i] === "0") {
+      i--;
+    }
+
+    if (str[i] !== ".") {
+      str = str.substring(0, i + 1);
+    }
+
+    str = str.replace(/0+$/, "");
+
+    const num = Number(str);
+    return isNaN(num) ? "a few" : num;
+  }
+
+  const updEverySecVal = updEverySec();
 
   return (
     <div className="app">
-      <h1 className="title">Advice update every {updEverySec} seconds</h1>
+      <h1 className="title">Advice update every {updEverySecVal} seconds</h1>
       <div className="card">
         {errorMessage ? (
           <p className="error-message">{errorMessage}</p>
